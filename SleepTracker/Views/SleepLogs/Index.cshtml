@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SleepTracker.Models.SleepLog>
+
+@{
+    ViewData["Title"] = "Sleep Logs";
+}
+
+<h1>Sleep Logs</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Sleep Log</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Sleep Start</th>
+        <th>Sleep End</th>
+        <th>Quality</th>
+        <th>User</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.SleepStart</td>
+            <td>@item.SleepEnd</td>
+            <td>@item.Quality</td>
+            <td>@item.User?.Name</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

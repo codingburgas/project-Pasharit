@@ -1,0 +1,16 @@
+﻿@model SleepTracker.Models.SleepLog
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Sleep Log Details</h1>
+
+<div>
+    <p><strong>Sleep Start:</strong> @Model.SleepStart</p>
+    <p><strong>Sleep End:</strong> @Model.SleepEnd</p>
+    <p><strong>Quality:</strong> @Model.Quality</p>
+    <p><strong>User:</strong> @Model.User?.Name</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
