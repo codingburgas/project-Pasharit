@@ -3,16 +3,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SleepTracker.Data;
 using SleepTracker.Models;
+using SleepTracker.Services;
 
 namespace SleepTracker.Controllers
 {
     public class SleepLogsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ISleepService _sleepService;
 
-        public SleepLogsController(ApplicationDbContext context)
+        public SleepLogsController(ApplicationDbContext context, ISleepService sleepService)
         {
             _context = context;
+            _sleepService = sleepService;
         }
 
         public async Task<IActionResult> Index()
@@ -34,6 +37,11 @@ namespace SleepTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SleepLog sleepLog)
         {
+            if (!_sleepService.IsSleepLogValid(sleepLog))
+            {
+                ModelState.AddModelError("", "Sleep start/end time is invalid.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.SleepLogs.Add(sleepLog);
@@ -61,6 +69,11 @@ namespace SleepTracker.Controllers
         public async Task<IActionResult> Edit(int id, SleepLog sleepLog)
         {
             if (id != sleepLog.Id) return NotFound();
+
+            if (!_sleepService.IsSleepLogValid(sleepLog))
+            {
+                ModelState.AddModelError("", "Sleep start/end time is invalid.");
+            }
 
             if (ModelState.IsValid)
             {

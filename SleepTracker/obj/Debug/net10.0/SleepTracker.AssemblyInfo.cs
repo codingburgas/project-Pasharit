@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SleepTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f4c9278a7d168be52bd0f3c0a7b6a6e00b0f9f2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2e4894cfadf92dcb30cf31b78db3e485bcb9a51")]
 [assembly: System.Reflection.AssemblyProductAttribute("SleepTracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SleepTracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

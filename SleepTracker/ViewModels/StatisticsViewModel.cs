@@ -5,8 +5,8 @@
         public double AverageLast7Days { get; set; }
         public double AverageLast30Days { get; set; }
 
-        public string? BestNightInfo { get; set; }
-        public string? WorstNightInfo { get; set; }
+        public string BestNightInfo { get; set; } = string.Empty;
+        public string WorstNightInfo { get; set; } = string.Empty;
 
         public List<SleepConsistencyPoint> ConsistencyPoints { get; set; } = new();
         public List<FactorAnalysisItem> FactorAnalysis { get; set; } = new();

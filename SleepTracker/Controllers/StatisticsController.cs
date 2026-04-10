@@ -25,13 +25,13 @@ namespace SleepTracker.Controllers
                 .Include(s => s.Factors)
                 .ToListAsync();
 
-            var avg7 = sleepLogs
+            var averageLast7Days = sleepLogs
                 .Where(s => s.SleepStart >= last7Days)
                 .Select(s => s.DurationHours)
                 .DefaultIfEmpty(0)
                 .Average();
 
-            var avg30 = sleepLogs
+            var averageLast30Days = sleepLogs
                 .Where(s => s.SleepStart >= last30Days)
                 .Select(s => s.DurationHours)
                 .DefaultIfEmpty(0)
@@ -72,8 +72,8 @@ namespace SleepTracker.Controllers
 
             var model = new StatisticsViewModel
             {
-                AverageLast7Days = avg7,
-                AverageLast30Days = avg30,
+                AverageLast7Days = averageLast7Days,
+                AverageLast30Days = averageLast30Days,
                 BestNightInfo = bestNight == null
                     ? "No data"
                     : $"{bestNight.SleepStart:dd.MM.yyyy HH:mm} | Quality: {bestNight.Quality} | Duration: {bestNight.DurationHours:F2} h",
