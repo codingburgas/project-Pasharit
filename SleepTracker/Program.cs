@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SleepTracker.Data;
+using SleepTracker.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -27,6 +28,15 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+    if (!context.Users.Any())
+    {
+        context.Users.Add(new User { Name = "Pasha" });
+        context.SaveChanges();
+    }
+}
 
 app.Run();
