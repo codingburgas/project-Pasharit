@@ -1,34 +1,37 @@
-﻿@model SleepTracker.Models.SleepLog
+﻿@model SleepTracker.Models.SleepFactor
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Factor";
 }
 
-<h1>Edit Sleep Log</h1>
+<h1>Edit Factor</h1>
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
 
     <div class="mb-3">
-        <label asp-for="SleepStart" class="form-label"></label>
-        <input asp-for="SleepStart" class="form-control" type="datetime-local" />
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="SleepEnd" class="form-label"></label>
-        <input asp-for="SleepEnd" class="form-control" type="datetime-local" />
+        <label asp-for="Value" class="form-label"></label>
+        <input asp-for="Value" class="form-control" />
+        <span asp-validation-for="Value" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Quality" class="form-label"></label>
-        <input asp-for="Quality" class="form-control" min="1" max="5" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="UserId" class="form-label">User</label>
-        <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users"></select>
+        <label asp-for="SleepLogId" class="form-label">Sleep Log</label>
+        <select asp-for="SleepLogId" class="form-control" asp-items="ViewBag.SleepLogs"></select>
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Back</a>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

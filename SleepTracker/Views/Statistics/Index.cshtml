@@ -1,0 +1,70 @@
+﻿@model SleepTracker.ViewModels.StatisticsViewModel
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+<h1>Statistics</h1>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h4>Average Sleep Duration</h4>
+            <p><strong>Last 7 days:</strong> @Model.AverageLast7Days.ToString("0.00") hours</p>
+            <p><strong>Last 30 days:</strong> @Model.AverageLast30Days.ToString("0.00") hours</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h4>Best and Worst Night</h4>
+            <p><strong>Best:</strong> @Model.BestNightInfo</p>
+            <p><strong>Worst:</strong> @Model.WorstNightInfo</p>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3 mb-4">
+    <h4>Sleep Consistency (Bedtime Hour)</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Bedtime Hour</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var point in Model.ConsistencyPoints)
+        {
+            <tr>
+                <td>@point.DateLabel</td>
+                <td>@point.BedTimeHour.ToString("0.00")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-3">
+    <h4>Factor Analysis</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Factor</th>
+            <th>Value</th>
+            <th>Average Quality</th>
+            <th>Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.FactorAnalysis)
+        {
+            <tr>
+                <td>@item.FactorName</td>
+                <td>@item.FactorValue</td>
+                <td>@item.AverageQuality.ToString("0.00")</td>
+                <td>@item.Count</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

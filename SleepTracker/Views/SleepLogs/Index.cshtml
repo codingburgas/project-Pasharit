@@ -12,13 +12,14 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th>Sleep Start</th>
-        <th>Sleep End</th>
-        <th>Quality</th>
-        <th>User</th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>Sleep Start</th>
+            <th>Sleep End</th>
+            <th>Quality</th>
+            <th>Duration (hours)</th>
+            <th>User</th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
@@ -27,6 +28,7 @@
             <td>@item.SleepStart</td>
             <td>@item.SleepEnd</td>
             <td>@item.Quality</td>
+            <td>@item.DurationHours.ToString("0.00")</td>
             <td>@item.User?.Name</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

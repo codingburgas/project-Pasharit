@@ -1,12 +1,14 @@
 ﻿@model SleepTracker.Models.SleepFactor
 
 @{
-    ViewData["Title"] = "Create Factor";
+    ViewData["Title"] = "Edit Factor";
 }
 
-<h1>Create Factor</h1>
+<h1>Edit Factor</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />
