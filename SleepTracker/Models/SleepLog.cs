@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace SleepTracker.Models
 {
@@ -13,10 +14,14 @@ namespace SleepTracker.Models
         [Range(1, 5)]
         public int Quality { get; set; }
 
+        [Required]
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
 
-        public List<SleepFactor> Factors { get; set; } = new List<SleepFactor>();
+        [ValidateNever]
+        public User? User { get; set; }
+
+        [ValidateNever]
+        public List<SleepFactor> Factors { get; set; } = new();
 
         public double DurationHours => (SleepEnd - SleepStart).TotalHours;
     }

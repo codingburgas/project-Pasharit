@@ -7,7 +7,7 @@
 <h1>Edit Sleep Log</h1>
 
 <form asp-action="Edit" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
     <input type="hidden" asp-for="Id" />
 
@@ -31,7 +31,9 @@
 
     <div class="mb-3">
         <label asp-for="UserId" class="form-label">User</label>
-        <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users"></select>
+        <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users">
+            <option value="">-- Select User --</option>
+        </select>
         <span asp-validation-for="UserId" class="text-danger"></span>
     </div>
 

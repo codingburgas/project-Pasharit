@@ -48,7 +48,12 @@ namespace SleepTracker.Controllers
         public IActionResult Create()
         {
             ViewBag.Users = new SelectList(_context.Users.ToList(), "Id", "Name");
-            return View();
+            return View(new SleepLog
+            {
+                SleepStart = DateTime.Now.AddHours(-8),
+                SleepEnd = DateTime.Now,
+                Quality = 3
+            });
         }
 
         [HttpPost]
@@ -58,6 +63,11 @@ namespace SleepTracker.Controllers
             if (!_sleepService.IsSleepLogValid(sleepLog))
             {
                 ModelState.AddModelError("", "Sleep start/end time is invalid.");
+            }
+
+            if (!_context.Users.Any(u => u.Id == sleepLog.UserId))
+            {
+                ModelState.AddModelError("UserId", "Please select a valid user.");
             }
 
             if (ModelState.IsValid)
@@ -93,11 +103,23 @@ namespace SleepTracker.Controllers
                 ModelState.AddModelError("", "Sleep start/end time is invalid.");
             }
 
+            if (!_context.Users.Any(u => u.Id == sleepLog.UserId))
+            {
+                ModelState.AddModelError("UserId", "Please select a valid user.");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Update(sleepLog);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Update(sleepLog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Unable to save changes.");
+                }
             }
 
             ViewBag.Users = new SelectList(_context.Users.ToList(), "Id", "Name", sleepLog.UserId);

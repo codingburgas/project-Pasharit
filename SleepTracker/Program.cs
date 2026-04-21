@@ -35,24 +35,15 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+    context.Database.Migrate();
+
     if (!context.Users.Any())
     {
-        context.Users.Add(new User
-        {
-            Name = "Pasha",
-            Role = "Admin"
-        });
-
+        context.Users.AddRange(
+            new User { Name = "Admin User", Role = "Admin" },
+            new User { Name = "Regular User", Role = "User" }
+        );
         context.SaveChanges();
-    }
-    else
-    {
-        var firstUser = context.Users.First();
-        if (string.IsNullOrEmpty(firstUser.Role))
-        {
-            firstUser.Role = "Admin";
-            context.SaveChanges();
-        }
     }
 }
 
