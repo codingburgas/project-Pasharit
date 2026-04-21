@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SleepTracker.Data;
+using SleepTracker.DTOs;
 using SleepTracker.Models;
 using SleepTracker.Services;
 
@@ -18,11 +19,28 @@ namespace SleepTracker.Controllers
             _sleepService = sleepService;
         }
 
+        private bool IsAdmin()
+        {
+            var firstUser = _context.Users.FirstOrDefault();
+            return firstUser != null && firstUser.Role == "Admin";
+        }
+
         public async Task<IActionResult> Index()
         {
             var sleepLogs = await _context.SleepLogs
                 .Include(s => s.User)
+                .Select(s => new SleepLogDTO
+                {
+                    Id = s.Id,
+                    SleepStart = s.SleepStart,
+                    SleepEnd = s.SleepEnd,
+                    Quality = s.Quality,
+                    UserName = s.User.Name,
+                    DurationHours = (s.SleepEnd - s.SleepStart).TotalHours
+                })
                 .ToListAsync();
+
+            ViewBag.IsAdmin = IsAdmin();
 
             return View(sleepLogs);
         }
@@ -88,6 +106,11 @@ namespace SleepTracker.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsAdmin())
+            {
+                return Content("Only Admin can delete sleep logs.");
+            }
+
             if (id == null) return NotFound();
 
             var sleepLog = await _context.SleepLogs
@@ -103,6 +126,11 @@ namespace SleepTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!IsAdmin())
+            {
+                return Content("Only Admin can delete sleep logs.");
+            }
+
             var sleepLog = await _context.SleepLogs.FindAsync(id);
             if (sleepLog != null)
             {

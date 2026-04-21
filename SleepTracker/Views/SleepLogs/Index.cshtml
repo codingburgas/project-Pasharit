@@ -1,7 +1,8 @@
-﻿@model IEnumerable<SleepTracker.Models.SleepLog>
+﻿@model IEnumerable<SleepTracker.DTOs.SleepLogDTO>
 
 @{
     ViewData["Title"] = "Sleep Logs";
+    bool isAdmin = ViewBag.IsAdmin != null && (bool)ViewBag.IsAdmin;
 }
 
 <h1>Sleep Logs</h1>
@@ -9,6 +10,15 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Add New Sleep Log</a>
 </p>
+
+@if (isAdmin)
+{
+    <p class="text-success"><strong>Current role:</strong> Admin</p>
+}
+else
+{
+    <p class="text-secondary"><strong>Current role:</strong> User</p>
+}
 
 <table class="table">
     <thead>
@@ -29,11 +39,16 @@
             <td>@item.SleepEnd</td>
             <td>@item.Quality</td>
             <td>@item.DurationHours.ToString("0.00")</td>
-            <td>@item.User?.Name</td>
+            <td>@item.UserName</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                @if (isAdmin)
+                {
+                    <text> | </text>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
             </td>
         </tr>
     }

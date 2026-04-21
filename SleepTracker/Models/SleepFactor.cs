@@ -9,7 +9,6 @@ namespace SleepTracker.Models
 
         [Required]
         public string Value { get; set; } = string.Empty;
-        // examples: Yes / No / Light / Heavy / 2 cups
 
         public int SleepLogId { get; set; }
         public SleepLog SleepLog { get; set; } = null!;
