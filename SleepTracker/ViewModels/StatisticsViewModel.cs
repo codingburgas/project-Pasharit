@@ -15,6 +15,7 @@
     public class SleepConsistencyPoint
     {
         public string DateLabel { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
         public double BedTimeHour { get; set; }
     }
 
@@ -22,6 +23,7 @@
     {
         public string FactorName { get; set; } = string.Empty;
         public string FactorValue { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
         public double AverageQuality { get; set; }
         public int Count { get; set; }
     }

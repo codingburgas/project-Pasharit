@@ -12,13 +12,14 @@
 
 <table class="table table-bordered">
     <thead>
-    <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Sleep Log Id</th>
-        <th>User</th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Sleep Log Id</th>
+            <th>User</th>
+            <th>Sleep Start</th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
@@ -28,6 +29,7 @@
             <td>@item.Value</td>
             <td>@item.SleepLogId</td>
             <td>@item.SleepLog?.User?.Name</td>
+            <td>@item.SleepLog?.SleepStart.ToString("dd.MM.yyyy HH:mm")</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

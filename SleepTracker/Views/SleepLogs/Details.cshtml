@@ -1,16 +1,17 @@
-﻿@model SleepTracker.Models.SleepFactor
+﻿@model SleepTracker.Models.SleepLog
 
 @{
-    ViewData["Title"] = "Factor Details";
+    ViewData["Title"] = "Sleep Log Details";
 }
 
-<h1>Factor Details</h1>
+<h1>Sleep Log Details</h1>
 
-<div>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Value:</strong> @Model.Value</p>
-    <p><strong>Sleep Log Id:</strong> @Model.SleepLogId</p>
-    <p><strong>User:</strong> @Model.SleepLog?.User?.Name</p>
+<div class="card p-3">
+    <p><strong>Sleep Start:</strong> @Model.SleepStart.ToString("dd.MM.yyyy HH:mm")</p>
+    <p><strong>Sleep End:</strong> @Model.SleepEnd.ToString("dd.MM.yyyy HH:mm")</p>
+    <p><strong>Quality:</strong> @Model.Quality</p>
+    <p><strong>Duration:</strong> @Model.DurationHours.ToString("0.00") hours</p>
+    <p><strong>User:</strong> @Model.User?.Name</p>
 </div>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>

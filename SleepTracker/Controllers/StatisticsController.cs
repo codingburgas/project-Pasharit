@@ -52,17 +52,25 @@ namespace SleepTracker.Controllers
                 .Select(s => new SleepConsistencyPoint
                 {
                     DateLabel = s.SleepStart.ToString("dd.MM"),
+                    UserName = s.User?.Name ?? "Unknown",
                     BedTimeHour = s.SleepStart.Hour + s.SleepStart.Minute / 60.0
                 })
                 .ToList();
 
             var factorAnalysis = sleepLogs
-                .SelectMany(s => s.Factors.Select(f => new { f.Name, f.Value, s.Quality }))
-                .GroupBy(x => new { x.Name, x.Value })
+                .SelectMany(s => s.Factors.Select(f => new
+                {
+                    f.Name,
+                    f.Value,
+                    UserName = s.User != null ? s.User.Name : "Unknown",
+                    s.Quality
+                }))
+                .GroupBy(x => new { x.Name, x.Value, x.UserName })
                 .Select(g => new FactorAnalysisItem
                 {
                     FactorName = g.Key.Name,
                     FactorValue = g.Key.Value,
+                    UserName = g.Key.UserName,
                     AverageQuality = g.Average(x => x.Quality),
                     Count = g.Count()
                 })
@@ -76,10 +84,10 @@ namespace SleepTracker.Controllers
                 AverageLast30Days = averageLast30Days,
                 BestNightInfo = bestNight == null
                     ? "No data"
-                    : $"{bestNight.SleepStart:dd.MM.yyyy HH:mm} | Quality: {bestNight.Quality} | Duration: {bestNight.DurationHours:F2} h",
+                    : $"{bestNight.SleepStart:dd.MM.yyyy HH:mm} | User: {bestNight.User?.Name} | Quality: {bestNight.Quality} | Duration: {bestNight.DurationHours:F2} h",
                 WorstNightInfo = worstNight == null
                     ? "No data"
-                    : $"{worstNight.SleepStart:dd.MM.yyyy HH:mm} | Quality: {worstNight.Quality} | Duration: {worstNight.DurationHours:F2} h",
+                    : $"{worstNight.SleepStart:dd.MM.yyyy HH:mm} | User: {worstNight.User?.Name} | Quality: {worstNight.Quality} | Duration: {worstNight.DurationHours:F2} h",
                 ConsistencyPoints = consistencyPoints,
                 FactorAnalysis = factorAnalysis
             };

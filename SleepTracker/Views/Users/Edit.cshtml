@@ -1,10 +1,10 @@
-﻿@model SleepTracker.Models.SleepFactor
+﻿@model SleepTracker.Models.User
 
 @{
-    ViewData["Title"] = "Edit Factor";
+    ViewData["Title"] = "Edit User";
 }
 
-<h1>Edit Factor</h1>
+<h1>Edit User</h1>
 
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
@@ -18,17 +18,12 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Value" class="form-label"></label>
-        <input asp-for="Value" class="form-control" />
-        <span asp-validation-for="Value" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SleepLogId" class="form-label">Sleep Log</label>
-        <select asp-for="SleepLogId" class="form-control" asp-items="ViewBag.SleepLogs">
-            <option value="">-- Select Sleep Log --</option>
+        <label asp-for="Role" class="form-label"></label>
+        <select asp-for="Role" class="form-control">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
         </select>
-        <span asp-validation-for="SleepLogId" class="text-danger"></span>
+        <span asp-validation-for="Role" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>

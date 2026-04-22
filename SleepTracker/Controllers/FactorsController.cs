@@ -27,14 +27,29 @@ namespace SleepTracker.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.SleepLogs = new SelectList(_context.SleepLogs.ToList(), "Id", "Id");
-            return View();
+            var sleepLogs = _context.SleepLogs
+                .Include(s => s.User)
+                .ToList()
+                .Select(s => new
+                {
+                    s.Id,
+                    Display = $"#{s.Id} | {s.User?.Name} | {s.SleepStart:dd.MM.yyyy HH:mm}"
+                })
+                .ToList();
+
+            ViewBag.SleepLogs = new SelectList(sleepLogs, "Id", "Display");
+            return View(new SleepFactor());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SleepFactor factor)
         {
+            if (!_context.SleepLogs.Any(s => s.Id == factor.SleepLogId))
+            {
+                ModelState.AddModelError("SleepLogId", "Please select a valid sleep log.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.SleepFactors.Add(factor);
@@ -42,7 +57,17 @@ namespace SleepTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.SleepLogs = new SelectList(_context.SleepLogs.ToList(), "Id", "Id", factor.SleepLogId);
+            var sleepLogs = _context.SleepLogs
+                .Include(s => s.User)
+                .ToList()
+                .Select(s => new
+                {
+                    s.Id,
+                    Display = $"#{s.Id} | {s.User?.Name} | {s.SleepStart:dd.MM.yyyy HH:mm}"
+                })
+                .ToList();
+
+            ViewBag.SleepLogs = new SelectList(sleepLogs, "Id", "Display", factor.SleepLogId);
             return View(factor);
         }
 
@@ -53,7 +78,17 @@ namespace SleepTracker.Controllers
             var factor = await _context.SleepFactors.FindAsync(id);
             if (factor == null) return NotFound();
 
-            ViewBag.SleepLogs = new SelectList(_context.SleepLogs.ToList(), "Id", "Id", factor.SleepLogId);
+            var sleepLogs = _context.SleepLogs
+                .Include(s => s.User)
+                .ToList()
+                .Select(s => new
+                {
+                    s.Id,
+                    Display = $"#{s.Id} | {s.User?.Name} | {s.SleepStart:dd.MM.yyyy HH:mm}"
+                })
+                .ToList();
+
+            ViewBag.SleepLogs = new SelectList(sleepLogs, "Id", "Display", factor.SleepLogId);
             return View(factor);
         }
 
@@ -63,6 +98,11 @@ namespace SleepTracker.Controllers
         {
             if (id != factor.Id) return NotFound();
 
+            if (!_context.SleepLogs.Any(s => s.Id == factor.SleepLogId))
+            {
+                ModelState.AddModelError("SleepLogId", "Please select a valid sleep log.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Update(factor);
@@ -70,7 +110,17 @@ namespace SleepTracker.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.SleepLogs = new SelectList(_context.SleepLogs.ToList(), "Id", "Id", factor.SleepLogId);
+            var sleepLogs = _context.SleepLogs
+                .Include(s => s.User)
+                .ToList()
+                .Select(s => new
+                {
+                    s.Id,
+                    Display = $"#{s.Id} | {s.User?.Name} | {s.SleepStart:dd.MM.yyyy HH:mm}"
+                })
+                .ToList();
+
+            ViewBag.SleepLogs = new SelectList(sleepLogs, "Id", "Display", factor.SleepLogId);
             return View(factor);
         }
 

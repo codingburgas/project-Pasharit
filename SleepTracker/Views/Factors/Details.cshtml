@@ -6,11 +6,13 @@
 
 <h1>Factor Details</h1>
 
-<div>
+<div class="card p-3">
     <p><strong>Name:</strong> @Model.Name</p>
     <p><strong>Value:</strong> @Model.Value</p>
     <p><strong>Sleep Log Id:</strong> @Model.SleepLogId</p>
     <p><strong>User:</strong> @Model.SleepLog?.User?.Name</p>
+    <p><strong>Sleep Start:</strong> @Model.SleepLog?.SleepStart.ToString("dd.MM.yyyy HH:mm")</p>
+    <p><strong>Sleep End:</strong> @Model.SleepLog?.SleepEnd.ToString("dd.MM.yyyy HH:mm")</p>
 </div>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
