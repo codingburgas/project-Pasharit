@@ -5,26 +5,31 @@ using SleepTracker.Models;
 
 namespace SleepTracker.Controllers
 {
+    // Controller responsible for managing users (CRUD operations)
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        // Inject database context
         public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Display all users
         public async Task<IActionResult> Index()
         {
             var users = await _context.Users.ToListAsync();
             return View(users);
         }
 
+        // Show Create form (default role = User)
         public IActionResult Create()
         {
             return View(new User { Role = "User" });
         }
 
+        // Handle user creation
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user)
@@ -39,6 +44,7 @@ namespace SleepTracker.Controllers
             return View(user);
         }
 
+        // Show Edit form
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -49,6 +55,7 @@ namespace SleepTracker.Controllers
             return View(user);
         }
 
+        // Handle updating user
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, User user)
@@ -65,6 +72,7 @@ namespace SleepTracker.Controllers
             return View(user);
         }
 
+        // Show Delete confirmation page
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -75,6 +83,7 @@ namespace SleepTracker.Controllers
             return View(user);
         }
 
+        // Confirm deletion of user
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -89,6 +98,7 @@ namespace SleepTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Show user details including related SleepLogs
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();

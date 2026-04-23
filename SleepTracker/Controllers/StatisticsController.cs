@@ -5,6 +5,7 @@ using SleepTracker.ViewModels;
 
 namespace SleepTracker.Controllers
 {
+    // Controller for calculating and displaying sleep statistics
     public class StatisticsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -14,12 +15,14 @@ namespace SleepTracker.Controllers
             _context = context;
         }
 
+        // Main statistics page
         public async Task<IActionResult> Index()
         {
             var now = DateTime.Now;
             var last7Days = now.AddDays(-7);
             var last30Days = now.AddDays(-30);
 
+            // Load sleep logs with related data
             var sleepLogs = await _context.SleepLogs
                 .Include(s => s.User)
                 .Include(s => s.Factors)
@@ -47,6 +50,7 @@ namespace SleepTracker.Controllers
                 .ThenBy(s => s.DurationHours)
                 .FirstOrDefault();
 
+            // Data for sleep consistency
             var consistencyPoints = sleepLogs
                 .OrderBy(s => s.SleepStart)
                 .Select(s => new SleepConsistencyPoint
@@ -57,6 +61,7 @@ namespace SleepTracker.Controllers
                 })
                 .ToList();
 
+            // Analyze factor impact on sleep quality
             var factorAnalysis = sleepLogs
                 .SelectMany(s => s.Factors.Select(f => new
                 {
@@ -82,12 +87,15 @@ namespace SleepTracker.Controllers
             {
                 AverageLast7Days = averageLast7Days,
                 AverageLast30Days = averageLast30Days,
+
                 BestNightInfo = bestNight == null
                     ? "No data"
                     : $"{bestNight.SleepStart:dd.MM.yyyy HH:mm} | User: {bestNight.User?.Name} | Quality: {bestNight.Quality} | Duration: {bestNight.DurationHours:F2} h",
+
                 WorstNightInfo = worstNight == null
                     ? "No data"
                     : $"{worstNight.SleepStart:dd.MM.yyyy HH:mm} | User: {worstNight.User?.Name} | Quality: {worstNight.Quality} | Duration: {worstNight.DurationHours:F2} h",
+
                 ConsistencyPoints = consistencyPoints,
                 FactorAnalysis = factorAnalysis
             };

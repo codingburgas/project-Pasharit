@@ -1,8 +1,76 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Main dashboard of the application -->
+<div class="text-center mb-5">
+    <h1 class="display-4">Sleep Tracker</h1>
+    <p class="lead">A web application for tracking sleep habits, factors, and sleep statistics.</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Sleep Logs</h3>
+                <p class="card-text">
+                    Add, edit, and manage sleep records.  
+                    Track sleep start, sleep end, duration, and quality.
+                </p>
+                <a asp-controller="SleepLogs" asp-action="Index" class="btn btn-primary">Open Sleep Logs</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Factors</h3>
+                <p class="card-text">
+                    Add habits and factors such as caffeine, sport, stress, or screen time
+                    and connect them to specific sleep logs.
+                </p>
+                <a asp-controller="Factors" asp-action="Index" class="btn btn-primary">Open Factors</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Statistics</h3>
+                <p class="card-text">
+                    Review average sleep duration, best and worst night,
+                    factor analysis, and sleep consistency.
+                </p>
+                <a asp-controller="Statistics" asp-action="Index" class="btn btn-primary">Open Statistics</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-3">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Users</h3>
+                <p class="card-text">
+                    Manage users and assign roles such as Admin and User.
+                </p>
+                <a asp-controller="Users" asp-action="Index" class="btn btn-outline-primary">Open Users</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Project Goals</h3>
+                <p class="card-text">
+                    This project demonstrates ASP.NET Core MVC, EF Core, OOP,
+                    LINQ, DTO usage, Dependency Injection, and validation.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

@@ -4,6 +4,7 @@ using SleepTracker.Models;
 
 namespace SleepTracker.Controllers;
 
+// Controller for basic pages (Home, Privacy, Error)
 public class HomeController : Controller
 {
     public IActionResult Index()
@@ -16,9 +17,13 @@ public class HomeController : Controller
         return View();
     }
 
+    // Shows error page
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(new ErrorViewModel 
+        { 
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier 
+        });
     }
 }

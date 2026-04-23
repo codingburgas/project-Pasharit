@@ -15,6 +15,7 @@
     <p><strong>User:</strong> @Model.SleepLog?.User?.Name</p>
 </div>
 
+<!-- Confirmation form for deleting a factor -->
 <form asp-action="Delete" method="post" class="mt-3">
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-danger">Delete</button>

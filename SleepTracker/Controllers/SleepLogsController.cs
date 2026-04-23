@@ -8,6 +8,7 @@ using SleepTracker.Services;
 
 namespace SleepTracker.Controllers
 {
+    // Main controller for managing Sleep Logs
     public class SleepLogsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +20,14 @@ namespace SleepTracker.Controllers
             _sleepService = sleepService;
         }
 
+        // Simple role check
         private bool IsAdmin()
         {
             var firstUser = _context.Users.FirstOrDefault();
             return firstUser != null && firstUser.Role == "Admin";
         }
 
+        // Displays all sleep logs using DTO
         public async Task<IActionResult> Index()
         {
             var sleepLogs = await _context.SleepLogs
@@ -45,9 +48,11 @@ namespace SleepTracker.Controllers
             return View(sleepLogs);
         }
 
+        // Shows Create form
         public IActionResult Create()
         {
             ViewBag.Users = new SelectList(_context.Users.ToList(), "Id", "Name");
+
             return View(new SleepLog
             {
                 SleepStart = DateTime.Now.AddHours(-8),
@@ -56,6 +61,7 @@ namespace SleepTracker.Controllers
             });
         }
 
+        // Handles creation of new sleep log
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SleepLog sleepLog)
@@ -81,6 +87,7 @@ namespace SleepTracker.Controllers
             return View(sleepLog);
         }
 
+        // Shows Edit form
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -92,6 +99,7 @@ namespace SleepTracker.Controllers
             return View(sleepLog);
         }
 
+        // Handles update of existing sleep log
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SleepLog sleepLog)
@@ -126,6 +134,7 @@ namespace SleepTracker.Controllers
             return View(sleepLog);
         }
 
+        // Shows Delete page (Admin only)
         public async Task<IActionResult> Delete(int? id)
         {
             if (!IsAdmin())
@@ -144,6 +153,7 @@ namespace SleepTracker.Controllers
             return View(sleepLog);
         }
 
+        // Confirms deletion
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -163,6 +173,7 @@ namespace SleepTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Shows details of a single sleep log
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();

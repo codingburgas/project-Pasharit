@@ -13,6 +13,7 @@
     <p><strong>Role:</strong> @Model.Role</p>
 </div>
 
+<!-- Confirmation form for deleting a user -->
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="Id" />
     <button type="submit" class="btn btn-danger">Delete</button>

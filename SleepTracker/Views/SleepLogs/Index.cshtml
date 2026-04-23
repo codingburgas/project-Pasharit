@@ -20,7 +20,8 @@ else
     <p class="text-secondary"><strong>Current role:</strong> User</p>
 }
 
-<table class="table">
+<!-- Displays all sleep logs with role-based actions -->
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Sleep Start</th>
@@ -35,15 +36,19 @@ else
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.SleepStart</td>
-            <td>@item.SleepEnd</td>
-            <td>@item.Quality</td>
+            <td>@item.SleepStart.ToString("dd.MM.yyyy HH:mm")</td>
+            <td>@item.SleepEnd.ToString("dd.MM.yyyy HH:mm")</td>
+            <td>
+                @for (int i = 0; i < item.Quality; i++)
+                {
+                    <span style="color:gold; font-size:20px;">★</span>
+                }
+            </td>
             <td>@item.DurationHours.ToString("0.00")</td>
             <td>@item.UserName</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-
                 @if (isAdmin)
                 {
                     <text> | </text>
